@@ -5,11 +5,13 @@ import { getMovies } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
-    movies: getMovies()
+    movies: getMovies(),
+    currentPage: 1,
+    pageSize: 4
   };
 
-  handlePageChange = () => {
-    console.log("Handling Page Change");
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
   };
 
   // binding this event handler in the constructor so we can get access to the current object
@@ -27,6 +29,7 @@ class Movies extends Component {
 
   render() {
     const { length: moviesCount } = this.state.movies;
+    const { pageSize, currentPage } = this.state;
 
     if (moviesCount === 0) return <p>There are no movies in the database.</p>;
 
@@ -71,7 +74,8 @@ class Movies extends Component {
         </table>
         <Pagination
           itemsCount={moviesCount}
-          pageSize={this.state.pageSize}
+          pageSize={pageSize}
+          currentPage={currentPage}
           onPageChange={this.handlePageChange}
         />
       </React.Fragment>
