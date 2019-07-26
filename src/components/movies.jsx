@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
     movies: getMovies()
+  };
+
+  handlePageChange = () => {
+    console.log("Handling Page Change");
   };
 
   // binding this event handler in the constructor so we can get access to the current object
@@ -64,6 +69,11 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={moviesCount}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
