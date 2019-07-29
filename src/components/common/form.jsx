@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
+import Select from "../common/select";
 
 class Form extends Component {
   state = { data: {}, errors: {} };
@@ -54,6 +55,21 @@ class Form extends Component {
       <button disabled={this.validate()} className="btn btn-primary">
         {label}
       </button>
+    );
+  }
+
+  // job is to return right component and hook into the right change event. w/o helper methods have to manually set onChange every time
+  renderSelect(name, label, options) {
+    const { data, errors } = this.state;
+
+    return (
+      <Select
+        name={name}
+        value={data[name]}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
     );
   }
 
