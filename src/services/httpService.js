@@ -1,9 +1,6 @@
 import axios from "axios";
 import logger from "./logService";
 import { toast } from "react-toastify";
-import auth from "./authService";
-
-axios.defaults.headers.common["x-auth-token"] = auth.getJWT();
 
 axios.interceptors.response.use(null, error => {
   const expectedError =
@@ -21,9 +18,14 @@ axios.interceptors.response.use(null, error => {
   // whenever we have response w/ error, this func will be caleld; then control will pass to our catch block below
 }); // first func will be called if success, second will be called if error
 
+function setJWT(jwt) {
+  axios.defaults.headers.common["x-auth-token"] = jwt;
+}
+
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
-  delete: axios.delete
+  delete: axios.delete,
+  setJWT
 };
