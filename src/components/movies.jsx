@@ -3,7 +3,8 @@ import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
 import MoviesTable from "./moviesTable";
 import SearchBox from "./common/searchBox";
-import { getMovies } from "../services/fakeMovieService";
+import { toast } from "react-toastify";
+import { getMovies, deleteMovie } from "../services/movieService";
 import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import { Link } from "react-router-dom";
@@ -23,7 +24,9 @@ class Movies extends Component {
   async componentDidMount() {
     const { data } = await getGenres();
     const genres = [{ _id: "", name: "All Genres" }, ...data];
-    this.setState({ movies: getMovies(), genres });
+
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres });
   }
 
   handlePageChange = page => {
@@ -31,9 +34,19 @@ class Movies extends Component {
   };
 
   // binding this event handler in the constructor so we can get access to the current object
-  handleDelete = movie => {
-    const movies = this.state.movies.filter(m => m._id !== movie._id);
+  handleDelete = async movie => {
+    const originalMovies = this.state.movies;
+    const movies = originalMovies.filter(m => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("This movie has already been deleted.");
+
+      this.setState(originalMovies);
+    }
   };
 
   handleLike = movie => {
