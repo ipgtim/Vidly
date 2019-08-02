@@ -5,9 +5,5 @@ body {
 }
 
 .navbar {
-  margin-bottom: 30px;
-}
-
-.clickable {
-  cursor: pointer;
+  margin-bottom: 40px;
 }

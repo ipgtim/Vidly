@@ -7,19 +7,13 @@ import Like from "./common/like";
 class MoviesTable extends Component {
   columns = [
     {
-      path: "title",
-      label: "Title",
+      path: "_id",
+      label: "ID",
       content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
     },
-    { path: "genre.name", label: "Genre" },
-    { path: "numberInStock", label: "Stock" },
-    { path: "dailyRentalRate", label: "Rate" },
-    {
-      key: "like",
-      content: movie => (
-        <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
-      )
-    }
+    { path: "client_name", label: "Client Name" },
+    { path: "client_code", label: "Client Code" },
+    { path: "agency_name", label: "Agency" }
   ];
 
   deleteColumn = {

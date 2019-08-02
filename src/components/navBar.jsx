@@ -5,7 +5,7 @@ const NavBar = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        Vidly
+        Client Console
       </Link>
       <button
         className="navbar-toggler"
@@ -21,13 +21,13 @@ const NavBar = ({ user }) => {
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
           <NavLink className="nav-item nav-link" to="/movies">
-            Movies
+            Clients
           </NavLink>
           <NavLink className="nav-item nav-link" to="/customers">
-            Customers
+            Monitoring
           </NavLink>
           <NavLink className="nav-item nav-link" to="/rentals">
-            Rentals
+            Data Engine Tools
           </NavLink>
           {!user && (
             <React.Fragment>

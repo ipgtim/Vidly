@@ -8,6 +8,7 @@ import { getMovies, deleteMovie } from "../services/movieService";
 import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import { Link } from "react-router-dom";
+import { CSVLink, CSVDownload } from "react-csv";
 import _ from "lodash";
 
 class Movies extends Component {
@@ -23,7 +24,8 @@ class Movies extends Component {
 
   async componentDidMount() {
     const { data } = await getGenres();
-    const genres = [{ _id: "", name: "All Genres" }, ...data];
+    console.log(data);
+    const genres = [{ _id: "", agency_name: "All Agencies" }, ...data];
 
     const { data: movies } = await getMovies();
     this.setState({ movies, genres });
@@ -82,10 +84,12 @@ class Movies extends Component {
 
     if (searchQuery) {
       filtered = allMovies.filter(m =>
-        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+        m["client_name"].toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     } else if (selectedGenre && selectedGenre._id) {
-      filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
+      filtered = allMovies.filter(
+        m => m.agency_code === selectedGenre.agency_code
+      );
     }
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
@@ -99,7 +103,7 @@ class Movies extends Component {
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { user } = this.props;
 
-    if (moviesCount === 0) return <p>There are no movies in the database.</p>;
+    if (moviesCount === 0) return <p>There are no clients in the database.</p>;
 
     const { totalCount, data: movies } = this.getPagedData();
 
@@ -119,10 +123,11 @@ class Movies extends Component {
               className="btn btn-primary"
               style={{ marginBottom: 20 }}
             >
-              New Movie
+              Add Client
             </Link>
           )}
-          <p>Showing {totalCount} movies in the database.</p>
+          <CSVLink data={movies}>Export as CSV</CSVLink>
+          <p>Showing {totalCount} clients in the database.</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
             movies={movies}
