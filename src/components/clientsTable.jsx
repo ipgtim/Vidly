@@ -2,25 +2,29 @@ import React, { Component } from "react";
 import auth from "../services/authService";
 import { Link } from "react-router-dom";
 import Table from "./common/table";
-import Like from "./common/like";
 
-class MoviesTable extends Component {
+class ClientsTable extends Component {
   columns = [
     {
-      path: "_id",
-      label: "ID",
-      content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      path: "id",
+      label: "ID"
     },
-    { path: "client_name", label: "Client Name" },
+    {
+      path: "client_name",
+      label: "Client Name",
+      content: client => (
+        <Link to={`/clients/${client.id}`}>{client.client_name}</Link>
+      )
+    },
     { path: "client_code", label: "Client Code" },
-    { path: "agency_name", label: "Agency" }
+    { path: "agency", label: "Agency" }
   ];
 
   deleteColumn = {
     key: "delete",
-    content: movie => (
+    content: client => (
       <button
-        onClick={() => this.props.onDelete(movie)}
+        onClick={() => this.props.onDelete(client)}
         className="btn btn-danger btn-sm"
       >
         Delete
@@ -35,12 +39,12 @@ class MoviesTable extends Component {
   }
 
   render() {
-    const { movies, onSort, sortColumn } = this.props;
+    const { clients, onSort, sortColumn } = this.props;
 
     return (
       <Table
         columns={this.columns}
-        data={movies}
+        data={clients}
         sortColumn={sortColumn}
         onSort={onSort}
       />
@@ -48,4 +52,4 @@ class MoviesTable extends Component {
   }
 }
 
-export default MoviesTable;
+export default ClientsTable;

@@ -1,7 +1,7 @@
 import React from "react";
 
-const Rentals = () => {
+const DataEngineTools = () => {
   return <h1>Data Engine Tools</h1>;
 };
 
-export default Rentals;
+export default DataEngineTools;
