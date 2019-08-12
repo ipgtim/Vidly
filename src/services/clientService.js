@@ -4,7 +4,7 @@ import { apiUrl } from "../config.json";
 const apiEndpoint = apiUrl + "clients/";
 
 function clientUrl(clientId) {
-  return `${apiEndpoint}/${clientId}`;
+  return `${apiEndpoint}${clientId}`;
 }
 
 export function getClients() {

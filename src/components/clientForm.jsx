@@ -57,6 +57,7 @@ class ClientForm extends Form {
 
   async populateClient() {
     try {
+      console.log("sweet", this.props.match.params);
       const clientId = this.props.match.params.id;
       if (clientId === "new") return;
 
@@ -91,6 +92,7 @@ class ClientForm extends Form {
   };
 
   render() {
+    console.log("ye", this.state.agencies);
     return (
       <div>
         <h1>New Client Form</h1>

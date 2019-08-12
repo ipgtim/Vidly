@@ -24,7 +24,7 @@ class Clients extends Component {
 
   async componentDidMount() {
     const { data } = await getAgencies();
-    const agencies = [{ id: 0, agency_name: "All Agencies" }, ...data];
+    const agencies = [{ id: "0", agency_name: "All Agencies" }, ...data];
     console.log("okkk", agencies);
 
     const { data: clients } = await getClients();

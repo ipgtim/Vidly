@@ -17,8 +17,8 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    const user = auth.getCurrentUser();
-    this.setState({ user });
+    const user = auth.getCurrentUser(); // get JWT, decode it to get current user
+    this.setState({ user }); // then update state
   }
 
   render() {

@@ -6,28 +6,30 @@ import auth from "../services/authService";
 
 class RegisterForm extends Form {
   state = {
-    data: { username: "", password: "", name: "" },
+    data: { email: "", password: "", username: "" },
     errors: {}
   };
 
   schema = {
-    username: Joi.string()
+    email: Joi.string()
       .required()
       .email()
-      .label("Username"),
+      .label("Email"),
     password: Joi.string()
       .required()
       .min(5)
       .label("Password"),
-    name: Joi.string()
+    username: Joi.string()
       .required()
-      .label("Name")
+      .label("Username")
   };
 
   doSubmit = async () => {
     try {
       const response = await userService.register(this.state.data); // returns promise so must await it
-      auth.loginWithJWT(response.headers["x-auth-token"]);
+      const { data } = response;
+      const { token: jwt } = data;
+      auth.loginWithJWT(jwt);
       window.location = "/"; // causes full reload of app, App.js mounted again
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -43,9 +45,9 @@ class RegisterForm extends Form {
       <div>
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Username")}
+          {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
-          {this.renderInput("name", "Name")}
+          {this.renderInput("username", "Username")}
           {this.renderButton("Register")}
         </form>
       </div>

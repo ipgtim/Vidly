@@ -21,10 +21,11 @@ class LoginForm extends Form {
 
   doSubmit = async () => {
     try {
+      console.log("reached");
       const { data } = this.state;
       await auth.login(data.username, data.password);
       const { state } = this.props.location;
-      window.location = state ? state.from.pathname : "/"; // causes full reload of app, App.js mounted again
+      window.location = state ? state.from.pathname : "/"; // causes full reload of app, App.js mounted again. want to do this so we have a valid JSON token in local storage before going to the client table page.
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
